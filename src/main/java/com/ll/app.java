@@ -48,21 +48,37 @@ public class app {
     }
 
     void todoListRemove(String sc) { //삭제?id=1
-        String [] scBit = sc.split("\\?", 2);
+        int id= getparamAsInt(sc, "id", 0);
+        if (id == 0) {
+            System.out.println("id 를 입력하세요.");
+            return;
+        }
+
+        System.out.printf("%d번 명언을 삭제합니다 %n", id);
+    }
+
+    int getparamAsInt(String sc, String paramName, int defalutValue) {
+        String[] scBit = sc.split("\\?", 2);
         String action = scBit[0];
         String queryString = scBit[1];
-        String [] queryStringBit= queryString.split("&");
-        int id =0;
-        for(int i=0; i < queryStringBit.length; i++){ // id=1
+        String[] queryStringBit = queryString.split("&");
+        for (int i = 0; i < queryStringBit.length; i++) { // id=1
             String queryStringStrBit = queryStringBit[i];
-            String [] queryStringStrBits= queryStringStrBit.split("=",2); //"id" , "2"
-            String paramName = queryStringStrBits[0]; //"id"
+            String[] queryStringStrBits = queryStringStrBit.split("=", 2); //"id" , "2"
+            String _paramName = queryStringStrBits[0]; //"id"
             String paramValue = queryStringStrBits[1]; //"2"
-            if (paramName.equals("id")){
-                id = Integer.parseInt(paramValue);
+            if (_paramName.equals("id")) {
+                try {
+                    return Integer.parseInt(paramValue);
+                } catch (NumberFormatException e) {
+                    return defalutValue;
+                }
             }
-            System.out.printf("%d번 명언을 삭제합니다 %n",id);
+
         }
+       return defalutValue;
     }
 }
+
+
 
