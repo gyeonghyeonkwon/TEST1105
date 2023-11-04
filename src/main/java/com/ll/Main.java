@@ -14,6 +14,12 @@ public class Main {
             if(sc.equals("종료")){
                 break;
             }
+            else if (sc.equals("등록")){
+                System.out.print("명언 : ");
+                String wiseSaying = scanner.nextLine();
+                System.out.print("작가 : ");
+                String another = scanner.nextLine();
+            }
         }
     }
 }
