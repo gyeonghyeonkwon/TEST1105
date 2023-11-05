@@ -64,8 +64,26 @@ public class app {
             System.out.println("id 를 입력하세요.");
             return;
         }
+        int index = getIndexOfinventoryListId (id);
 
-        System.out.printf("%d번 명언을 삭제합니다 %n", id);
+        if (index == -1) {
+            System.out.printf("%d번명언은 존재하지않습니다%n",id);
+            return;
+        }
+        inventoryList.remove(index);
+
+        System.out.printf("%d번 명언을 삭제되었습니다. %n", id);
+    }
+
+    int getIndexOfinventoryListId(int id) {
+        for (int i=0; i < inventoryList.size(); i++){
+            Inventory inventory = inventoryList.get(i);
+
+            if (inventory.id ==id) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     void todoListModify(Rq rq){
