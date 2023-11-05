@@ -26,10 +26,10 @@ public class app {
                 case "목록":
                     todoList();
                     break;
-                case "삭제?":
+                case "삭제":
                     todoListRemove(rq);
                     break;
-                case "수정?":
+                case "수정":
                     todoListModify(rq);
                     break;
             }

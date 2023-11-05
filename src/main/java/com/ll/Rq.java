@@ -1,23 +1,29 @@
 package com.ll;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Rq {
     String sc;
     String action;
     String queryString;
-    List<String>paramNames;
-    List<String>paramValues;
+
+    Map<String,String>paramsMap;
     Rq(String sc) {
-        paramNames =new ArrayList<>();
-        paramValues=new ArrayList<>();
+        paramsMap = new HashMap<>();
         this.sc = sc;
 
         String[] scBit = sc.split("\\?", 2);
 
         action = scBit[0].trim();
-        queryString = scBit[1].trim();
+        //queryString = scBit[1].trim();
+
+        if (scBit.length ==1) {
+            return;
+        }
+        queryString =scBit[1].trim();
 
         String [] queryStringBit = queryString.split("&");
 
@@ -27,8 +33,8 @@ public class Rq {
             String paramName = queryStringStrBits[0];
             String paramValue = queryStringStrBits[1];
 
-            paramNames.add(paramName);
-            paramValues.add(paramValue);
+            paramsMap.put(paramName,paramValue);
+
         }
      }
 
@@ -37,15 +43,16 @@ public class Rq {
     }
 
     int  getParamAsInt(String paramName, int defultValue) {
-        int index=paramNames.indexOf(paramName);
+        String paramValue = paramsMap.get(paramName);
 
-        if (index == -1 ) return defultValue;
-        String paramValue = paramValues.get(index);
-        try {
-            return Integer.parseInt(paramValue);
+        if (paramValue != null) {
+            try {
+                return Integer.parseInt(paramValue);
+            }
+            catch (NumberFormatException e) {
+                return defultValue;
+            }
         }
-        catch (NumberFormatException e) {
-            return defultValue;
-        }
+        return defultValue;
     }
 }
