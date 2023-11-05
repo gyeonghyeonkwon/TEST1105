@@ -67,7 +67,7 @@ public class app {
         int index = getIndexOfinventoryListId (id);
 
         if (index == -1) {
-            System.out.printf("%d번명언은 존재하지않습니다%n",id);
+            System.out.println("등록된 명언은 없습니다.");
             return;
         }
         inventoryList.remove(index);
