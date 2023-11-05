@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class app {
     Scanner scanner = new Scanner(System.in);
-    int wiseSaingNumber = 0;
+    int wiseSayingNumber = 0;
     List<Inventory> inventoryList = new ArrayList<>();
 
     public void run() {
@@ -14,6 +14,11 @@ public class app {
         while (true) {
             System.out.print("명령 : ");
             String sc = scanner.nextLine();
+
+            Rq rq = new Rq(sc);
+
+            System.out.println(rq.getAction());
+            System.out.println(rq.getParamAsInt("id",0));
             if (sc.equals("종료")) {
                 break;
             } else if (sc.equals("등록")) {
@@ -31,8 +36,8 @@ public class app {
         String wiseSaying = scanner.nextLine();
         System.out.print("작가 : ");
         String another = scanner.nextLine();
-        wiseSaingNumber++;
-        int id = wiseSaingNumber;
+        wiseSayingNumber++;
+        int id = wiseSayingNumber;
         System.out.printf("%d번 명언이 등록되었습니다%n", id);
         Inventory inventory = new Inventory(wiseSaying, another, id);
         inventoryList.add(inventory);
@@ -59,8 +64,8 @@ public class app {
 
     int getparamAsInt(String sc, String paramName, int defalutValue) {
         String[] scBit = sc.split("\\?", 2);
-        String action = scBit[0];
-        String queryString = scBit[1];
+        String action = scBit[0]; // "삭제?"
+        String queryString = scBit[1]; // "id=2"
         String[] queryStringBit = queryString.split("&");
         for (int i = 0; i < queryStringBit.length; i++) { // id=1
             String queryStringStrBit = queryStringBit[i];
