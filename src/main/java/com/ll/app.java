@@ -10,27 +10,33 @@ public class app {
     List<Inventory> inventoryList = new ArrayList<>();
 
     public void run() {
-
         while (true) {
             System.out.print("명령 : ");
             String sc = scanner.nextLine();
 
             Rq rq = new Rq(sc);
 
-            System.out.println(rq.getAction());
-            System.out.println(rq.getParamAsInt("id",0));
-            if (sc.equals("종료")) {
-                break;
-            } else if (sc.equals("등록")) {
-                registration();
-            } else if (sc.equals("목록")) {
-                todoList();
-            } else if (sc.startsWith("삭제?")) {
-                todoListRemove(sc);
+
+            switch (rq.getAction()) {
+                case "종료":
+                    return;
+                case "등록":
+                    registration();
+                    break;
+                case "목록":
+                    todoList();
+                    break;
+                case "삭제?":
+                    todoListRemove(rq);
+                    break;
+                case "수정?":
+                    todoListModify(rq);
+                    break;
             }
+
+
         }
     }
-
     void registration() {
         System.out.print("명언 : ");
         String wiseSaying = scanner.nextLine();
@@ -52,8 +58,8 @@ public class app {
         }
     }
 
-    void todoListRemove(String sc) { //삭제?id=1
-        int id= getparamAsInt(sc, "id", 0);
+    void todoListRemove(Rq rq) { //삭제?id=1
+        int id= rq.getParamAsInt( "id", 0);
         if (id == 0) {
             System.out.println("id 를 입력하세요.");
             return;
@@ -62,27 +68,16 @@ public class app {
         System.out.printf("%d번 명언을 삭제합니다 %n", id);
     }
 
-    int getparamAsInt(String sc, String paramName, int defalutValue) {
-        String[] scBit = sc.split("\\?", 2);
-        String action = scBit[0]; // "삭제?"
-        String queryString = scBit[1]; // "id=2"
-        String[] queryStringBit = queryString.split("&");
-        for (int i = 0; i < queryStringBit.length; i++) { // id=1
-            String queryStringStrBit = queryStringBit[i];
-            String[] queryStringStrBits = queryStringStrBit.split("=", 2); //"id" , "2"
-            String _paramName = queryStringStrBits[0]; //"id"
-            String paramValue = queryStringStrBits[1]; //"2"
-            if (_paramName.equals("id")) {
-                try {
-                    return Integer.parseInt(paramValue);
-                } catch (NumberFormatException e) {
-                    return defalutValue;
-                }
-            }
-
+    void todoListModify(Rq rq){
+        int id= rq.getParamAsInt( "id", 0);
+        if (id == 0) {
+            System.out.println("id 를 입력하세요.");
+            return;
         }
-       return defalutValue;
+        System.out.printf("%d번 명언을 수정합니다 %n", id);
     }
+
+
 }
 
 
